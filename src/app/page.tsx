@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import DashboardPage from './dashboard';
+import { NextUIProvider } from '@nextui-org/system';
 
 const Login = dynamic(() => import('../app/auth/login'));
 
@@ -13,13 +14,13 @@ const Home: React.FC = () => {
   };
 
   return (
-    <>
+    <NextUIProvider>
       {user ? (
         <DashboardPage />
       ) : (
         <Login onLogin={handleLogin} />
       )}
-    </>
+    </NextUIProvider>
   );
 };
 

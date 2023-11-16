@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { UserAuthForm } from "@/app/auth/components/user-auth-form"
 import { useState } from "react"
 import axiosInterceptorInstance from "@/axios/axiosInterceptorInstance"
+import {Input} from "@nextui-org/input";
 
 export const metadata: Metadata = {
   title: "Authentication",

@@ -7,6 +7,7 @@ import { Icons } from "@/components/icons/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Input as NextInput } from "@nextui-org/input";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -30,6 +31,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
+            <NextInput
+              isRequired
+              type="email"
+              label="Email"
+            />
             <Input
               id="email"
               placeholder="name@example.com"
