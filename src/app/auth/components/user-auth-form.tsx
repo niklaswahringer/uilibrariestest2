@@ -13,6 +13,14 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [email, setEmail] = React.useState("");
+  const validateEmail = (email: string) => email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+
+  const isInvalid = React.useMemo(() => {
+    if (email === "") return false;
+
+    return validateEmail(email) ? false : true;
+  }, [email]);
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault()
@@ -33,17 +41,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </Label>
             <NextInput
               isRequired
+              value={email}
+              variant="bordered"
+              color={isInvalid ? "danger" : "primary"}
+              errorMessage={isInvalid && "Please enter a valid email"}
+              onValueChange={setEmail}
               type="email"
-              label="Email"
-            />
-            <Input
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading}
+              label="E-Mail"
+              size="sm"
             />
           </div>
           <Button disabled={isLoading}>
@@ -70,7 +75,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         ) : (
           <Icons.gitHub className="mr-2 h-4 w-4" />
         )}{" "}
-        Github
+        Social Login
       </Button>
     </div>
   )
