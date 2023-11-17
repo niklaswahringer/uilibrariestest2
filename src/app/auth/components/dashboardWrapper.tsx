@@ -1,48 +1,76 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUser, faCartShopping, faUsers, faCalendar, faGear, faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser, faCartShopping, faUsers, faCalendar, faGear, faDollarSign, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
 
 interface DashboardWrapperProps {
   children: ReactNode;
 }
 
+interface MainNavItems {
+    id: string;
+    label: IconDefinition;
+}
+
 const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ children }) => {
-  return (
-    <div className="border p-0 min-h-screen flex bg-gray-800">
 
-        <div className="pl-3 py-8 flex flex-col h-auto items-center text-center justify-between">
-            <div className="flex flex-col items-center justify-center w-full pr-3">
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-6 w-6 text-white"
-                >
-                    <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-                </svg>
-            </div>
+    const [selectedNavItem, setSelectedNavItem] = useState("home");
 
-            <div className='w-full h-auto flex flex-col gap-12 items-center text-white'>
-                <div className='bg-white rounded-l-full h-14 w-14 items-center justify-center flex -mb-4'>
-                    <FontAwesomeIcon icon={faHome} className="h-6 w-6 text-gray-800 pl-2"/>
+    const navItems: MainNavItems[] = [
+        { id: "home", label: faHome },
+        { id: "calender", label: faCalendar },
+        { id: "team", label: faUsers },
+        { id: "services", label: faCartShopping },
+        { id: "customer", label: faUser },
+        { id: "billing", label: faDollarSign },
+    ];
+
+    return (
+        <div className="border p-0 min-h-screen flex bg-gray-800">
+            <div className="pl-3 py-8 flex flex-col h-auto items-center text-center justify-between">
+                <div className="flex flex-col items-center justify-center w-full pr-3">
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-6 w-6 text-white"
+                    >
+                        <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
+                    </svg>
                 </div>
-                <FontAwesomeIcon icon={faCalendar} className="h-6 w-6 pr-4 pl-4"/>
-                <FontAwesomeIcon icon={faUsers} className="h-6 w-6 pr-4 pl-4"/>
-                <FontAwesomeIcon icon={faCartShopping} className="h-6 w-6 pr-4 pl-4"/>
-                <FontAwesomeIcon icon={faUser} className="h-6 w-6 pr-4 pl-4"/>
-                <FontAwesomeIcon icon={faDollarSign} className="h-6 w-6 pr-4 pl-4"/>
+
+                <div className='w-full h-auto flex flex-col items-center text-white'>
+                    {navItems.map(navItem => (
+                        <>
+                         {
+                            selectedNavItem === navItem.id ? (
+                                <button className='relative p-5'>
+                                    <motion.div 
+                                        layoutId='nav-pill'
+                                        className='bg-white inset-0 absolute rounded-l-full items-center justify-center flex'
+                                        >
+                                    </motion.div>
+                                    <FontAwesomeIcon icon={navItem.label} className="text-gray-800 relative"/>
+                                </button>
+                            ) : (
+                                <button className='relative p-5' onClick={() => setSelectedNavItem(navItem.id)}>
+                                    <FontAwesomeIcon icon={navItem.label} className="" />
+                                </button>
+                            )
+                         }
+                        </>
+                    ))}
+                </div>
+
+                <FontAwesomeIcon icon={faGear} className="h-6 w-6 text-white mt-4 pr-3" />
             </div>
-
-            <FontAwesomeIcon icon={faGear} className="h-6 w-6 text-white mt-4 pr-3"/>
+        {children}
         </div>
-
-      {children}
-    </div>
-  );
+    );
 };
 
 export default DashboardWrapper;

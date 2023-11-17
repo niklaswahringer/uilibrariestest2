@@ -26,10 +26,12 @@ import { UserNav } from "@/components/user-nav"
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Example dashboard app built using the components.",
+  description: "Dashboard Page - handle operator",
 }
 
-export default function DashboardPage() {
+interface DashboardProps { }
+
+const Home: React.FC<DashboardProps> = ({ }) => {
   return (
     <div className="bg-white w-full rounded-l-lg">
       <div className="md:hidden">
@@ -211,4 +213,5 @@ export default function DashboardPage() {
       </div>
     </div>
   )
-}
+} 
+export default Home;
