@@ -10,8 +10,11 @@ import {
   TableBody,
   TableColumn,
   TableRow,
-  TableCell
+  TableCell, 
+  getKeyValue
 } from "@nextui-org/table";
+import { Button } from "@/components/ui/button"
+import demoCustomers, { customerTableColumns } from "@/interfaces/CustomerInterface"
 
 export const metadata: Metadata = {
   title: "Customer",
@@ -52,36 +55,21 @@ const Customer: React.FC<TeamProps> = ({ }) => {
         </div>
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="flex items-center justify-between space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight">Customer</h2>
+            <h2 className="text-3xl font-bold tracking-tight">Customers</h2>
+            <div className="flex items-center space-x-2">
+              <Button>Add Customer</Button>
+            </div>
           </div>
-
-          <Table aria-label="Example static collection table">
-            <TableHeader>
-              <TableColumn>NAME</TableColumn>
-              <TableColumn>ROLE</TableColumn>
-              <TableColumn>STATUS</TableColumn>
+          <Table aria-label="Example table with dynamic content">
+            <TableHeader columns={customerTableColumns}>
+              {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
             </TableHeader>
-            <TableBody>
-              <TableRow key="1">
-                <TableCell>Tony Reichert</TableCell>
-                <TableCell>CEO</TableCell>
-                <TableCell>Active</TableCell>
-              </TableRow>
-              <TableRow key="2">
-                <TableCell>Zoey Lang</TableCell>
-                <TableCell>Technical Lead</TableCell>
-                <TableCell>Paused</TableCell>
-              </TableRow>
-              <TableRow key="3">
-                <TableCell>Jane Fisher</TableCell>
-                <TableCell>Senior Developer</TableCell>
-                <TableCell>Active</TableCell>
-              </TableRow>
-              <TableRow key="4">
-                <TableCell>William Howard</TableCell>
-                <TableCell>Community Manager</TableCell>
-                <TableCell>Vacation</TableCell>
-              </TableRow>
+            <TableBody items={demoCustomers}>
+              {(item) => (
+                <TableRow key={item.id}>
+                  {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </div>

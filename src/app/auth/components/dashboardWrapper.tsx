@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
-import { navItems } from '@/app/MainNavItems';
+import { navItems } from '@/interfaces/MainNavItems';
 
 interface DashboardWrapperProps {
     currentPage: string;
@@ -14,7 +14,7 @@ interface DashboardWrapperProps {
 const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ currentPage, setCurrentPage, children }) => {
 
     return (
-        <div className="border p-0 min-h-screen flex bg-gray-800">
+        <div className="p-0 min-h-screen flex bg-gray-800">
             <div className="pl-3 py-8 flex flex-col h-auto items-center text-center justify-between">
                 <div className="flex flex-col items-center justify-center w-full pr-3">
                     <svg
