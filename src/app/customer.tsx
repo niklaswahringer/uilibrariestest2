@@ -1,5 +1,4 @@
 import { Metadata } from "next"
-import Image from "next/image"
 import { MainNav } from "@/components/main-nav"
 import { Search } from "@/components/search"
 import TeamSwitcher from "@/components/team-switcher"
@@ -14,8 +13,11 @@ import {
   getKeyValue
 } from "@nextui-org/table";
 import { Button } from "@/components/ui/button"
-import demoCustomers, { customerTableColumns } from "@/interfaces/CustomerInterface"
-
+import demoCustomers, { customerTableColumns, ICustomer } from "@/interfaces/CustomerInterface"
+import { Card } from "@/components/ui/card"
+import { useCallback, useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCalendar, faFile, faStar } from "@fortawesome/free-solid-svg-icons"
 export const metadata: Metadata = {
   title: "Customer",
   description: "Customer Page - handle operator",
@@ -24,24 +26,42 @@ export const metadata: Metadata = {
 interface TeamProps { }
 
 const Customer: React.FC<TeamProps> = ({ }) => {
+  const [selectedKeys, setSelectedKeys] = useState(new Set());
+
+  const renderCell = useCallback((user: ICustomer, columnKey: React.Key) => {
+    const cellValue = user[columnKey as keyof ICustomer];
+
+    switch (columnKey) {
+      case "name":
+        return (
+            <p className="text-bold text-small capitalize text-gray-800 font-bold">{typeof cellValue !== "string" ? "test" : cellValue}</p>
+        );
+        case "hasActiveAppointment":
+          return (
+            <p className={`text-bold text-small capitalize ${cellValue ? 'text-gray-800' : 'text-gray-400'} text-center`}>
+              <FontAwesomeIcon icon={faCalendar}/>
+            </p>
+          );
+        case "hasNotes":
+          return (
+            <p className={`text-bold text-small capitalize ${cellValue ? 'text-gray-800' : 'text-gray-400'} text-center`}>
+              <FontAwesomeIcon icon={faFile}/>
+            </p>
+          );
+        case "isFavourite":
+          return (
+            <p className={`text-bold text-small capitalize ${cellValue ? 'text-gray-800' : 'text-gray-400'} text-center`}>
+              <FontAwesomeIcon icon={faStar}/>
+            </p>
+          );
+
+      default:
+        return cellValue;
+    }
+  }, []);
+
   return (
     <div className="bg-white w-full rounded-l-lg">
-      <div className="md:hidden">
-        <Image
-          src="/examples/dashboard-light.png"
-          width={1280}
-          height={866}
-          alt="Customer"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/dashboard-dark.png"
-          width={1280}
-          height={866}
-          alt="Customer"
-          className="hidden dark:block"
-        />
-      </div>
       <div className="hidden flex-col md:flex">
         <div className="border-b">
           <div className="flex h-16 items-center px-4">
@@ -60,18 +80,30 @@ const Customer: React.FC<TeamProps> = ({ }) => {
               <Button>Add Customer</Button>
             </div>
           </div>
-          <Table aria-label="Example table with dynamic content">
-            <TableHeader columns={customerTableColumns}>
-              {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-            </TableHeader>
-            <TableBody items={demoCustomers}>
-              {(item) => (
-                <TableRow key={item.id}>
-                  {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          <div className="flex items-start justify-between space-x-4">
+            <Table aria-label="Example table with dynamic content"
+              selectionMode="single"
+              selectedKeys={selectedKeys}
+              onSelectionChange={setSelectedKeys}>
+              <TableHeader columns={customerTableColumns}>
+                {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+              </TableHeader>
+              <TableBody items={demoCustomers} emptyContent={"No customers found"}>
+                {(item) => (
+                  <TableRow key={item.key}>
+                    {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+            {
+              selectedKeys.size !== 0 && (
+              <Card className="p-12">
+                ausgewählter Customer {selectedKeys}
+              </Card>
+              )
+            }
+          </div>
         </div>
       </div>
     </div>

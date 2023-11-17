@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
@@ -9,7 +9,6 @@ interface DashboardWrapperProps {
     setCurrentPage: Function;
     children: ReactNode;
 }
-
 
 const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ currentPage, setCurrentPage, children }) => {
 
