@@ -45,24 +45,21 @@ const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ children }) => {
 
                 <div className='w-full h-auto flex flex-col items-center text-white'>
                     {navItems.map(navItem => (
-                        <>
-                         {
-                            selectedNavItem === navItem.id ? (
-                                <button className='relative p-5'>
+                        <button className='relative p-5'>
+                            { selectedNavItem === navItem.id ? (
+                                <>
                                     <motion.div 
                                         layoutId='nav-pill'
                                         className='bg-white inset-0 absolute rounded-l-full items-center justify-center flex'
                                         >
                                     </motion.div>
-                                    <FontAwesomeIcon icon={navItem.label} className="text-gray-800 relative"/>
-                                </button>
+                                    <FontAwesomeIcon icon={navItem.label} className="text-gray-800 relative h-5 w-5"/>
+                                </>
                             ) : (
-                                <button className='relative p-5' onClick={() => setSelectedNavItem(navItem.id)}>
-                                    <FontAwesomeIcon icon={navItem.label} className="" />
-                                </button>
+                                <FontAwesomeIcon icon={navItem.label} className="relative h-5 w-5" onClick={() => setSelectedNavItem(navItem.id)}/>
                             )
                          }
-                        </>
+                        </button>
                     ))}
                 </div>
 

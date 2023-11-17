@@ -9,7 +9,7 @@ import DashboardWrapper from './auth/components/dashboardWrapper';
 const Login = dynamic(() => import('../app/auth/login'));
 
 const Home: React.FC = () => {
-  const [user, setUser] = useState<string | null>("asd");
+  const [user, setUser] = useState<string | null>();
   const [isLogin, setIsLogin] = useState(false);
   
   const handleLogin = (username: string) => {
