@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 interface DashboardProps { }
 
-const Home: React.FC<DashboardProps> = ({ }) => {
+const Dashboard: React.FC<DashboardProps> = ({ }) => {
   return (
     <div className="bg-white w-full rounded-l-lg">
       <div className="md:hidden">
@@ -72,7 +72,7 @@ const Home: React.FC<DashboardProps> = ({ }) => {
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
+              <TabsTrigger value="analytics">
                 Analytics
               </TabsTrigger>
               <TabsTrigger value="reports" disabled>
@@ -214,4 +214,4 @@ const Home: React.FC<DashboardProps> = ({ }) => {
     </div>
   )
 } 
-export default Home;
+export default Dashboard;

@@ -1,29 +1,17 @@
 import React, { ReactNode, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUser, faCartShopping, faUsers, faCalendar, faGear, faDollarSign, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
+import { navItems } from '@/app/MainNavItems';
 
 interface DashboardWrapperProps {
-  children: ReactNode;
+    currentPage: string;
+    setCurrentPage: Function;
+    children: ReactNode;
 }
 
-interface MainNavItems {
-    id: string;
-    label: IconDefinition;
-}
 
-const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ children }) => {
-
-    const [selectedNavItem, setSelectedNavItem] = useState("home");
-
-    const navItems: MainNavItems[] = [
-        { id: "home", label: faHome },
-        { id: "calender", label: faCalendar },
-        { id: "team", label: faUsers },
-        { id: "services", label: faCartShopping },
-        { id: "customer", label: faUser },
-        { id: "billing", label: faDollarSign },
-    ];
+const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ currentPage, setCurrentPage, children }) => {
 
     return (
         <div className="border p-0 min-h-screen flex bg-gray-800">
@@ -46,9 +34,9 @@ const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ children }) => {
                 <div className='w-full h-auto flex flex-col items-center text-white'>
                     {navItems.map(navItem => (
                         <button className='relative p-5'
-                            onClick={() => setSelectedNavItem(navItem.id)}
+                            onClick={() => setCurrentPage(navItem.id)}
                             >
-                            { selectedNavItem === navItem.id ? (
+                            { currentPage === navItem.id ? (
                                 <motion.div 
                                     layoutId='nav-pill'
                                     transition={{ duration: .6 }}
@@ -57,7 +45,7 @@ const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ children }) => {
                                 </motion.div>
                             ) : null
                          }
-                         <FontAwesomeIcon icon={navItem.label} className={`${ selectedNavItem === navItem.id ? "" : "hover:text-yellow-200"}
+                         <FontAwesomeIcon icon={navItem.label} className={`${ currentPage === navItem.id ? "" : "hover:text-yellow-200"}
                             relative h-5 w-5 z-10 mix-blend-exclusion `}/>
                         </button>
                     ))}
