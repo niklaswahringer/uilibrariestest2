@@ -14,8 +14,8 @@ export const customerTableColumns = [
       label: "Geschlecht",
     },
     {
-        key: "age",
-        label: "Alter",
+        key: "birthDate",
+        label: "Age",
     },
     {
         key: "hasNotes",
@@ -42,7 +42,6 @@ export interface ICustomer {
     phone: string;
     address: IAddress;
     birthDate: Date;
-    age: number;
     gender: string;
     handles: number;
     lastAppointment: string;
@@ -68,7 +67,6 @@ for (let i = 1; i <= 15; i++) {
       streetNumber: i * 10,
     },
     birthDate: new Date(`19${80 + i}-01-01`),
-    age: Math.floor(Math.random() * 30) + 10,
     gender: i % 2 === 0 ? 'Male' : 'Female',
     handles: Math.floor(Math.random() * 10) + 1,
     lastAppointment: '2023-01-15',

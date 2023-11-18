@@ -18,6 +18,7 @@ import { Card } from "@/components/ui/card"
 import { useCallback, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCalendar, faFile, faStar } from "@fortawesome/free-solid-svg-icons"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 export const metadata: Metadata = {
   title: "Customer",
   description: "Customer Page - handle operator",
@@ -30,6 +31,24 @@ const Customer: React.FC<TeamProps> = ({ }) => {
 
   const renderCell = useCallback((user: ICustomer, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof ICustomer];
+
+    if (cellValue instanceof Object && 'country' in cellValue) {
+      return `${cellValue.streetNumber} ${cellValue.street}, ${cellValue.postal} ${cellValue.city}, ${cellValue.country}`;
+    }else if (cellValue instanceof Date) {
+      const today = new Date();
+      const birthDate = cellValue;
+
+      let age = today.getFullYear() - birthDate.getFullYear();
+
+      if (
+        today.getMonth() < birthDate.getMonth() ||
+        (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
+      ) {
+        age--;
+      }
+
+      return age;
+    }
 
     switch (columnKey) {
       case "name":
@@ -98,8 +117,13 @@ const Customer: React.FC<TeamProps> = ({ }) => {
             </Table>
             {
               selectedKeys.size !== 0 && (
-              <Card className="p-12">
-                ausgewählter Customer {selectedKeys}
+              <Card className="p-8 items-center flex flex-col w-1/3 space-y-4">
+                <Avatar className="w-16 h-16">
+                  <AvatarImage src="/avatars/01.png" alt="@handle" />
+                  <AvatarFallback>C</AvatarFallback>
+                </Avatar>
+                <h3>Customer {selectedKeys}</h3>
+                <p></p>
               </Card>
               )
             }
